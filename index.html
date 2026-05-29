@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>সুন্নতে মুয়াক্কাদা নামাজ</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b2e1a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="সুন্নত নামাজ">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="description" content="৫ ওয়াক্ত সুন্নতে মুয়াক্কাদা নামাজের গাইড — বাংলা আরবি উচ্চারণ ও অর্থসহ">
+
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --dark:   #0b2e1a;
+      --mid:    #164d2c;
+      --accent: #1e6e3e;
+      --gold:   #c49a2c;
+      --gold-l: #e8c96a;
+      --cream:  #fef9ef;
+      --muted:  #f5f0e4;
+      --green-hover: #d4edda;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Serif Bengali', serif;
+      background: var(--cream);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(155deg, #0b2e1a 0%, #1e6e3e 100%);
+      padding: 50px 24px 42px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      width: 320px; height: 320px;
+      border: 2px solid rgba(196,154,44,.2);
+      border-radius: 50%;
+      top: -140px; left: -100px;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      width: 220px; height: 220px;
+      border: 1.5px solid rgba(196,154,44,.15);
+      border-radius: 50%;
+      bottom: -90px; right: -60px;
+    }
+    .arabic-header {
+      font-family: 'Amiri', serif;
+      font-size: 38px;
+      color: var(--gold-l);
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+    .bn-title {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      display: inline-block;
+      font-size: 13px;
+      background: rgba(196,154,44,.2);
+      border: 1px solid rgba(196,154,44,.5);
+      border-radius: 20px;
+      padding: 5px 18px;
+      color: var(--gold-l);
+    }
+
+    /* ── Intro Card ── */
+    .intro-card {
+      background: #fff;
+      border: 1.5px solid #b8d9c8;
+      border-radius: 14px;
+      padding: 22px 20px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+    .intro-card .intro-title {
+      color: var(--dark);
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .intro-card p {
+      font-size: 14px;
+      line-height: 2;
+      color: #444;
+      margin-bottom: 10px;
+    }
+    .intro-card .hadith {
+      background: #fef8ed;
+      border-left: 3px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #7a5c1e;
+      line-height: 1.9;
+    }
+    .rakaat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .rakaat-item {
+      background: #eef7f2;
+      border: 1px solid #b8d9c8;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--mid);
+    }
+    .rakaat-item span {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    /* ── Section badges ── */
+    .section-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 30px 0 14px;
+    }
+    .section-badge {
+      background: var(--dark);
+      color: var(--gold-l);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 6px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--gold);
+      white-space: nowrap;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--gold), transparent);
+    }
+
+    /* ── Accordion ── */
+    .accord {
+      background: #fff;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      border: 1px solid rgba(0,0,0,.06);
+      overflow: hidden;
+    }
+    .accord-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 18px;
+      cursor: pointer;
+      user-select: none;
+      border-left: 4px solid var(--gold);
+      transition: background .2s;
+    }
+    .accord-head:hover { background: var(--green-hover); }
+    .accord-head.open {
+      background: var(--dark);
+      color: #fff;
+      border-left-color: var(--gold-l);
+    }
+    .accord-head.open:hover { background: var(--dark); }
+
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--muted);
+      color: var(--mid);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+      flex-shrink: 0;
+      border: 1.5px solid var(--gold);
+      transition: all .2s;
+    }
+    .accord-head.open .step-num {
+      background: var(--gold);
+      color: var(--dark);
+    }
+
+    .step-info { flex: 1; }
+    .step-name { font-size: 16px; font-weight: 600; }
+    .step-hint { font-size: 12px; opacity: .6; margin-top: 2px; }
+    .accord-head.open .step-hint { opacity: .75; }
+
+    .chevron { font-size: 11px; opacity: .55; transition: transform .3s; }
+    .accord-head.open .chevron { transform: rotate(180deg); opacity: 1; }
+
+    /* ── Content ── */
+    .accord-body {
+      display: none;
+      padding: 20px 18px;
+      border-top: 1px solid #f0ebe0;
+      animation: pop .22s ease;
+    }
+    .accord-body.open { display: block; }
+
+    @keyframes pop {
+      from { opacity: 0; transform: translateY(-5px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Rakaat Block ── */
+    .rakaat-block {
+      margin-bottom: 18px;
+    }
+    .rakaat-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: .5px;
+      margin-bottom: 10px;
+      padding: 4px 12px;
+      background: #eef7f2;
+      border-radius: 20px;
+      display: inline-block;
+      border: 1px solid #b8d9c8;
+    }
+    .surah-item {
+      background: #fff;
+      border: 1px solid #e8e0cc;
+      border-left: 3px solid var(--gold);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    .surah-step {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: .5px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .arabic-text {
+      font-family: 'Amiri', serif;
+      font-size: 26px;
+      line-height: 2;
+      text-align: right;
+      direction: rtl;
+      color: var(--dark);
+      padding: 10px 14px;
+      background: linear-gradient(to left, #eef7f2, transparent);
+      border-right: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 10px;
+    }
+    .lbl {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .lbl-p { color: var(--gold); }
+    .lbl-m { color: var(--accent); margin-top: 10px; }
+    .pron-box {
+      background: #fef8ed;
+      border: 1px solid #e8d4a0;
+      border-left: 3px solid var(--gold);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      line-height: 1.9;
+      color: #444;
+    }
+    .mean-box {
+      background: #eef7f2;
+      border: 1px solid #b8d9c8;
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.9;
+      color: #2a2a2a;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 28px 16px;
+      color: #999;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="arabic-header">السُّنَنُ الْمُؤَكَّدَة</div>
+  <div class="bn-title">সুন্নতে মুয়াক্কাদা নামাজ</div>
+  <div class="subtitle">৫ ওয়াক্ত · ১২ রাকাত · প্রতিদিন</div>
+</header>
+
+<div class="container">
+
+  <!-- Intro Card -->
+  <div class="intro-card">
+    <div class="intro-title">📖 সুন্নতে মুয়াক্কাদা কী?</div>
+    <p>যে সুন্নত নামাজ নবী ﷺ নিয়মিত আদায় করেছেন এবং কদাচিৎ ছেড়েছেন। বিনা কারণে এগুলো ছেড়ে দেওয়া মাকরুহ।</p>
+    <div class="hadith">
+      "যে ব্যক্তি দিনে-রাতে ১২ রাকাত সুন্নত নামাজ আদায় করবে, আল্লাহ তার জন্য জান্নাতে একটি ঘর তৈরি করবেন।"
+      <br><strong>— তিরমিযি: ৪১৪</strong>
+    </div>
+    <div class="rakaat-grid">
+      <div class="rakaat-item">🌅 ফজর — <span>২ রাকাত</span> (আগে)</div>
+      <div class="rakaat-item">☀️ যোহর — <span>৪+২ রাকাত</span> (আগে+পরে)</div>
+      <div class="rakaat-item">🌇 মাগরিব — <span>২ রাকাত</span> (পরে)</div>
+      <div class="rakaat-item">🌙 এশা — <span>২ রাকাত</span> (পরে)</div>
+    </div>
+  </div>
+
+  <!-- ══ ফজর ══ -->
+  <div class="section-row">
+    <div class="section-badge">🌅 ফজরের সুন্নত</div>
+    <div class="section-line"></div>
+  </div>
+  <div style="font-size:13px; color:#666; margin-bottom:14px; padding-left:4px;">২ রাকাত · ফরজের আগে</div>
+
+  <!-- ফজর রাকাত ১ -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">১</div>
+      <div class="step-info">
+        <div class="step-name">১ম রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা কাউসার</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আল-কাউসার</div>
+        <div class="surah-item">
+          <div class="arabic-text">إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ ﴿١﴾ فَصَلِّ لِرَبِّكَ وَانْحَرْ ﴿٢﴾ إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ ﴿٣﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">ইন্না আ'তাইনাকাল কাউসার। ফাসাল্লি লিরাব্বিকা ওয়ানহার। ইন্না শানিআকা হুওয়াল আবতার।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">নিশ্চয়ই আমি তোমাকে কাউসার দান করেছি। অতএব তোমার প্রতিপালকের উদ্দেশ্যে নামাজ পড়ো এবং কোরবানি করো। নিশ্চয়ই তোমার শত্রুই নির্বংশ।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ফজর রাকাত ২ -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">২</div>
+      <div class="step-info">
+        <div class="step-name">২য় রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা ইখলাস</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আল-ইখলাস</div>
+        <div class="surah-item">
+          <div class="arabic-text">قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ﴿٤﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">কুল হুওয়াল্লাহু আহাদ। আল্লাহুস সামাদ। লাম ইয়ালিদ ওয়ালাম ইউলাদ। ওয়ালাম ইয়াকুল্লাহু কুফুওয়ান আহাদ।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">বলুন, তিনি আল্লাহ এক। আল্লাহ অমুখাপেক্ষী। তিনি কাউকে জন্ম দেননি এবং তাঁকেও জন্ম দেওয়া হয়নি। তাঁর সমতুল্য কেউ নেই।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ যোহর ══ -->
+  <div class="section-row">
+    <div class="section-badge">☀️ যোহরের সুন্নত</div>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- যোহর আগে সাব-হেডার -->
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+    <div style="background:#eef7f2; border:1px solid #b8d9c8; border-radius:20px; padding:5px 16px; font-size:13px; color:var(--accent); font-weight:700; white-space:nowrap;">ফরজের আগে · ৪ রাকাত সুন্নতে মুয়াক্কাদা</div>
+    <div style="flex:1; height:1px; background:linear-gradient(to right,#b8d9c8,transparent);"></div>
+  </div>
+
+  <!-- যোহর রাকাত ১ -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">১</div>
+      <div class="step-info">
+        <div class="step-name">১ম রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা আসর</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আল-আসর</div>
+        <div class="surah-item">
+          <div class="arabic-text">وَالْعَصْرِ ﴿١﴾ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ ﴿٢﴾ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ ﴿٣﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">ওয়াল আসর। ইন্নাল ইনসানা লাফি খুসর। ইল্লাল্লাযিনা আমানু ওয়া আমিলুস সালিহাতি ওয়া তাওয়াসাও বিলহাক্কি ওয়া তাওয়াসাও বিস সবর।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">সময়ের শপথ। নিশ্চয়ই মানুষ ক্ষতিগ্রস্ত। তবে তারা নয়, যারা ঈমান এনেছে, সৎকাজ করেছে এবং পরস্পরকে সত্য ও ধৈর্যের উপদেশ দিয়েছে।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- যোহর রাকাত ২ -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">২</div>
+      <div class="step-info">
+        <div class="step-name">২য় রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা কাফিরুন</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আল-কাফিরুন</div>
+        <div class="surah-item">
+          <div class="arabic-text">قُلْ يَا أَيُّهَا الْكَافِرُونَ ﴿١﴾ لَا أَعْبُدُ مَا تَعْبُدُونَ ﴿٢﴾ وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ ﴿٣﴾ وَلَا أَنَا عَابِدٌ مَّا عَبَدتُّمْ ﴿٤﴾ وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ ﴿٥﴾ لَكُمْ دِينُكُمْ وَلِيَ دِينِ ﴿٦﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">কুল ইয়া আইয়্যুহাল কাফিরুন। লা আ'বুদু মা তা'বুদুন। ওয়ালা আনতুম আবিদুনা মা আ'বুদ। ওয়ালা আনা আবিদুম মা আবাদতুম। ওয়ালা আনতুম আবিদুনা মা আ'বুদ। লাকুম দিনুকুম ওয়ালিয়া দিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">বলুন, হে কাফিরগণ! আমি তার ইবাদত করি না যার ইবাদত তোমরা কর। তোমরাও তার ইবাদতকারী নও যার ইবাদত আমি করি। তোমাদের দ্বীন তোমাদের জন্য, আমার দ্বীন আমার জন্য।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- যোহর রাকাত ৩ -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">৩</div>
+      <div class="step-info">
+        <div class="step-name">৩য় রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা ইনশিরাহ</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আল-ইনশিরাহ</div>
+        <div class="surah-item">
+          <div class="arabic-text">أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ ﴿١﴾ وَوَضَعْنَا عَنكَ وِزْرَكَ ﴿٢﴾ الَّذِي أَنقَضَ ظَهْرَكَ ﴿٣﴾ وَرَفَعْنَا لَكَ ذِكْرَكَ ﴿٤﴾ فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ﴿٥﴾ إِنَّ مَعَ الْعُسْرِ يُسْرًا ﴿٦﴾ فَإِذَا فَرَغْتَ فَانصَبْ ﴿٧﴾ وَإِلَىٰ رَبِّكَ فَارْغَب ﴿٨﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">আলাম নাশরাহ লাকা সাদরাক। ওয়া ওয়াদা'না আনকা উইযরাক। আল্লাযি আনকাদা যাহরাক। ওয়া রাফা'না লাকা যিকরাক। ফাইন্না মাআল উসরি ইউসরা। ইন্না মাআল উসরি ইউসরা। ফাইযা ফারাগতা ফানসাব। ওয়া ইলা রাব্বিকা ফারগাব।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আমি কি তোমার বুক খুলে দিইনি? তোমার বোঝা নামিয়ে দিইনি — যা তোমার পিঠ ভেঙে দিচ্ছিল? তোমার সুনাম বুলন্দ করিনি? নিশ্চয়ই কষ্টের সাথে স্বস্তি আছে। অতএব যখন অবসর পাও, ইবাদতে মনোযোগ দাও এবং তোমার প্রতিপালকের প্রতি আগ্রহী হও।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- যোহর রাকাত ৪ -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">৪</div>
+      <div class="step-info">
+        <div class="step-name">৪র্থ রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা নাসর</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আন-নাসর</div>
+        <div class="surah-item">
+          <div class="arabic-text">إِذَا جَاءَ نَصْرُ اللَّهِ وَالْفَتْحُ ﴿١﴾ وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا ﴿٢﴾ فَسَبِّحْ بِحَمْدِ رَبِّكَ وَاسْتَغْفِرْهُ إِنَّهُ كَانَ تَوَّابًا ﴿٣﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">ইযা জাআ নাসরুল্লাহি ওয়াল ফাতহ। ওয়া রাআইতান নাসা ইয়াদখুলুনা ফি দিনিল্লাহি আফওয়াজা। ফাসাব্বিহ বিহামদি রাব্বিকা ওয়াস্তাগফিরহু ইন্নাহু কানা তাওয়াবা।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">যখন আল্লাহর সাহায্য ও বিজয় আসবে এবং তুমি মানুষকে দলে দলে আল্লাহর দ্বীনে প্রবেশ করতে দেখবে, তখন তোমার প্রতিপালকের প্রশংসাসহ তাসবিহ পড়ো এবং ক্ষমা প্রার্থনা কর। নিশ্চয়ই তিনি তওবা কবুলকারী।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- যোহর পরের সাব-হেডার -->
+  <div style="display:flex; align-items:center; gap:10px; margin:20px 0 14px;">
+    <div style="background:#fef8ed; border:1px solid #e8d4a0; border-radius:20px; padding:5px 16px; font-size:13px; color:#7a5c1e; font-weight:700; white-space:nowrap;">ফরজের পরে · ২ রাকাত সুন্নতে মুয়াক্কাদা</div>
+    <div style="flex:1; height:1px; background:linear-gradient(to right,#e8d4a0,transparent);"></div>
+  </div>
+
+  <!-- যোহর পরের ২ রাকাত -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">১</div>
+      <div class="step-info">
+        <div class="step-name">১ম রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা ফালাক</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আল-ফালাক</div>
+        <div class="surah-item">
+          <div class="arabic-text">قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ﴿١﴾ مِن شَرِّ مَا خَلَقَ ﴿٢﴾ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ﴿٣﴾ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ﴿٤﴾ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ ﴿٥﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">কুল আউযু বিরাব্বিল ফালাক। মিন শাররি মা খালাক। ওয়া মিন শাররি গাসিকিন ইযা ওয়াকাব। ওয়া মিন শাররিন নাফফাসাতি ফিল উকাদ। ওয়া মিন শাররি হাসিদিন ইযা হাসাদ।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">বলুন, আমি আশ্রয় চাই ঊষার প্রতিপালকের কাছে — তিনি যা সৃষ্টি করেছেন তার অনিষ্ট থেকে, রাতের অন্ধকার থেকে, গ্রন্থিতে ফুঁ দেওয়াদের অনিষ্ট থেকে এবং হিংসুকের অনিষ্ট থেকে।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- যোহর পরের ৬ষ্ঠ রাকাত -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">২</div>
+      <div class="step-info">
+        <div class="step-name">২য় রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা নাস</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আন-নাস</div>
+        <div class="surah-item">
+          <div class="arabic-text">قُلْ أَعُوذُ بِرَبِّ النَّاسِ ﴿١﴾ مَلِكِ النَّاسِ ﴿٢﴾ إِلَٰهِ النَّاسِ ﴿٣﴾ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ﴿٤﴾ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ﴿٥﴾ مِنَ الْجِنَّةِ وَالنَّاسِ ﴿٦﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">কুল আউযু বিরাব্বিন নাস। মালিকিন নাস। ইলাহিন নাস। মিন শাররিল ওয়াসওয়াসিল খান্নাস। আল্লাযি ইউওয়াসউইসু ফি সুদুরিন নাস। মিনাল জিন্নাতি ওয়ান নাস।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">বলুন, আমি আশ্রয় চাই মানুষের প্রতিপালকের কাছে, মানুষের অধিপতির কাছে, মানুষের ইলাহর কাছে — কুমন্ত্রণাদাতার অনিষ্ট থেকে, যে মানুষের মনে কুমন্ত্রণা দেয়, জিন ও মানুষের মধ্য থেকে।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ মাগরিব ══ -->
+  <div class="section-row">
+    <div class="section-badge">🌇 মাগরিবের সুন্নত</div>
+    <div class="section-line"></div>
+  </div>
+  <div style="font-size:13px; color:#666; margin-bottom:14px; padding-left:4px;">২ রাকাত · ফরজের পরে</div>
+
+  <!-- মাগরিব রাকাত ১ -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">১</div>
+      <div class="step-info">
+        <div class="step-name">১ম রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা আত-তীন</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আত-তীন</div>
+        <div class="surah-item">
+          <div class="arabic-text">وَالتِّينِ وَالزَّيْتُونِ ﴿١﴾ وَطُورِ سِينِينَ ﴿٢﴾ وَهَٰذَا الْبَلَدِ الْأَمِينِ ﴿٣﴾ لَقَدْ خَلَقْنَا الْإِنسَانَ فِي أَحْسَنِ تَقْوِيمٍ ﴿٤﴾ ثُمَّ رَدَدْنَاهُ أَسْفَلَ سَافِلِينَ ﴿٥﴾ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ فَلَهُمْ أَجْرٌ غَيْرُ مَمْنُونٍ ﴿٦﴾ فَمَا يُكَذِّبُكَ بَعْدُ بِالدِّينِ ﴿٧﴾ أَلَيْسَ اللَّهُ بِأَحْكَمِ الْحَاكِمِينَ ﴿٨﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">ওয়াত তিনি ওয়াযযাইতুন। ওয়া তুরি সিনিন। ওয়া হাযাল বালাদিল আমিন। লাকাদ খালাকনাল ইনসানা ফি আহসানি তাকউইম। সুম্মা রাদাদনাহু আসফালা সাফিলিন। ইল্লাল্লাযিনা আমানু ওয়া আমিলুস সালিহাতি ফালাহুম আজরুন গাইরু মামনুন। ফামা ইউকাযযিবুকা বা'দু বিদ্দিন। আলাইসাল্লাহু বিআহকামিল হাকিমিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">ডুমুর ও যয়তুনের শপথ, সিনাই পর্বতের শপথ এবং এই নিরাপদ নগরীর শপথ — আমি মানুষকে সর্বোত্তম গঠনে সৃষ্টি করেছি। তারপর তাকে নিকৃষ্টতমে ফিরিয়ে দিই। তবে যারা ঈমান আনে ও সৎকাজ করে, তাদের জন্য অফুরন্ত পুরস্কার।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- মাগরিব রাকাত ২ -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">২</div>
+      <div class="step-info">
+        <div class="step-name">২য় রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা ফিল</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আল-ফিল</div>
+        <div class="surah-item">
+          <div class="arabic-text">أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَابِ الْفِيلِ ﴿١﴾ أَلَمْ يَجْعَلْ كَيْدَهُمْ فِي تَضْلِيلٍ ﴿٢﴾ وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ ﴿٣﴾ تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ ﴿٤﴾ فَجَعَلَهُمْ كَعَصْفٍ مَّأْكُولٍ ﴿٥﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">আলাম তারা কাইফা ফাআলা রাব্বুকা বিআসহাবিল ফিল। আলাম ইয়াজআল কাইদাহুম ফি তাদলিল। ওয়া আরসালা আলাইহিম তাইরান আবাবিল। তারমিহিম বিহিজারাতিম মিন সিজ্জিল। ফাজাআলাহুম কাআসফিম মাকুল।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">তুমি কি দেখনি তোমার প্রতিপালক হাতিওয়ালাদের সাথে কী করেছিলেন? তিনি কি তাদের কৌশল ব্যর্থ করে দেননি? তিনি তাদের উপর ঝাঁকে ঝাঁকে পাখি পাঠিয়েছিলেন, যারা তাদের উপর পোড়া মাটির পাথর ছুঁড়ছিল এবং তাদের ভক্ষিত তৃণের মতো করে ফেলেছিলেন।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ এশা ══ -->
+  <div class="section-row">
+    <div class="section-badge">🌙 এশার সুন্নত</div>
+    <div class="section-line"></div>
+  </div>
+  <div style="font-size:13px; color:#666; margin-bottom:14px; padding-left:4px;">২ রাকাত · ফরজের পরে</div>
+
+  <!-- এশা রাকাত ১ -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">১</div>
+      <div class="step-info">
+        <div class="step-name">১ম রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা ইখলাস</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আল-ইখলাস</div>
+        <div class="surah-item">
+          <div class="arabic-text">قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ﴿٤﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">কুল হুওয়াল্লাহু আহাদ। আল্লাহুস সামাদ। লাম ইয়ালিদ ওয়ালাম ইউলাদ। ওয়ালাম ইয়াকুল্লাহু কুফুওয়ান আহাদ।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">বলুন, তিনি আল্লাহ এক। আল্লাহ অমুখাপেক্ষী। তিনি কাউকে জন্ম দেননি এবং তাঁকেও জন্ম দেওয়া হয়নি। তাঁর সমতুল্য কেউ নেই।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- এশা রাকাত ২ -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">২</div>
+      <div class="step-info">
+        <div class="step-name">২য় রাকাত</div>
+        <div class="step-hint">সূরা ফাতিহা + সূরা কাউসার</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="rakaat-block">
+        <div class="rakaat-label">১ম — সূরা আল-ফাতিহা</div>
+        <div class="surah-item">
+          <div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">বিসমিল্লাহির রাহমানির রাহিম। আলহামদুলিল্লাহি রাব্বিল আলামিন। আর-রাহমানির রাহিম। মালিকি ইয়াওমিদ্দিন। ইয়্যাকা না'বুদু ওয়া ইয়্যাকা নাস্তাঈন। ইহদিনাস সিরাতাল মুস্তাকিম। সিরাতাল্লাযিনা আন'আমতা আলাইহিম, গাইরিল মাগদুবি আলাইহিম ওয়ালাদ দ্বাল্লিন।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">আল্লাহর নামে শুরু করছি। সমস্ত প্রশংসা আল্লাহর, যিনি জগতসমূহের প্রতিপালক, পরম দয়ালু, বিচার দিনের মালিক। আমরা শুধু তোমারই ইবাদত করি এবং তোমারই সাহায্য চাই। আমাদের সরল পথ দেখাও।</div>
+        </div>
+      </div>
+      <div class="rakaat-block">
+        <div class="rakaat-label">২য় — সূরা আল-কাউসার</div>
+        <div class="surah-item">
+          <div class="arabic-text">إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ ﴿١﴾ فَصَلِّ لِرَبِّكَ وَانْحَرْ ﴿٢﴾ إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ ﴿٣﴾</div>
+          <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+          <div class="pron-box">ইন্না আ'তাইনাকাল কাউসার। ফাসাল্লি লিরাব্বিকা ওয়ানহার। ইন্না শানিআকা হুওয়াল আবতার।</div>
+          <div class="lbl lbl-m">বাংলা অর্থ</div>
+          <div class="mean-box">নিশ্চয়ই আমি তোমাকে কাউসার দান করেছি। অতএব তোমার প্রতিপালকের উদ্দেশ্যে নামাজ পড়ো এবং কোরবানি করো। নিশ্চয়ই তোমার শত্রুই নির্বংশ।</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ শেষ বৈঠক ══ -->
+  <div class="section-row">
+    <div class="section-badge">🤲 শেষ বৈঠক</div>
+    <div class="section-line"></div>
+  </div>
+  <div style="font-size:13px; color:#666; margin-bottom:14px; padding-left:4px;">সব ওয়াক্তের শেষ রাকাতে পড়তে হবে</div>
+
+  <!-- তাশাহহুদ -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">ক</div>
+      <div class="step-info">
+        <div class="step-name">তাশাহহুদ (আত্তাহিয়্যাত)</div>
+        <div class="step-hint">শেষ বৈঠকে বসে পড়তে হবে</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="arabic-text">التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ، السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div>
+      <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+      <div class="pron-box">আত্তাহিয়্যাতু লিল্লাহি ওয়াস সালাওয়াতু ওয়াত তাইয়্যিবাত। আস-সালামু আলাইকা আইয়্যুহান নাবিয়্যু ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহ। আস-সালামু আলাইনা ওয়া আলা ইবাদিল্লাহিস সালিহিন। আশহাদু আল্লা ইলাহা ইল্লাল্লাহু ওয়া আশহাদু আন্না মুহাম্মাদান আবদুহু ওয়া রাসুলুহ।</div>
+      <div class="lbl lbl-m">বাংলা অর্থ</div>
+      <div class="mean-box">সকল মৌখিক, শারীরিক ও আর্থিক ইবাদত আল্লাহর জন্য। হে নবী! আপনার উপর সালাম এবং আল্লাহর রহমত ও বরকত বর্ষিত হোক। আমাদের উপর এবং আল্লাহর নেক বান্দাদের উপর সালাম। আমি সাক্ষ্য দিচ্ছি যে আল্লাহ ছাড়া কোনো ইলাহ নেই এবং মুহাম্মাদ তাঁর বান্দা ও রাসূল।</div>
+    </div>
+  </div>
+
+  <!-- দরুদ ইব্রাহিম -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">খ</div>
+      <div class="step-info">
+        <div class="step-name">দরুদ ইব্রাহিম</div>
+        <div class="step-hint">তাশাহহুদের পরে পড়তে হবে</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="arabic-text">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ، اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ</div>
+      <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+      <div class="pron-box">আল্লাহুম্মা সাল্লি আলা মুহাম্মাদিউ ওয়া আলা আলি মুহাম্মাদ, কামা সাল্লাইতা আলা ইব্রাহিমা ওয়া আলা আলি ইব্রাহিম, ইন্নাকা হামিদুম মাজিদ। আল্লাহুম্মা বারিক আলা মুহাম্মাদিউ ওয়া আলা আলি মুহাম্মাদ, কামা বারাকতা আলা ইব্রাহিমা ওয়া আলা আলি ইব্রাহিম, ইন্নাকা হামিদুম মাজিদ।</div>
+      <div class="lbl lbl-m">বাংলা অর্থ</div>
+      <div class="mean-box">হে আল্লাহ! মুহাম্মাদ ও তাঁর বংশধরদের উপর রহমত বর্ষণ কর, যেমন ইব্রাহিম ও তাঁর বংশধরদের উপর করেছ। মুহাম্মাদ ও তাঁর বংশধরদের উপর বরকত দাও, যেমন ইব্রাহিম ও তাঁর বংশধরদের উপর দিয়েছ। নিশ্চয়ই তুমি প্রশংসিত ও মহিমান্বিত।</div>
+    </div>
+  </div>
+
+  <!-- দোয়া মাসুরা -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">গ</div>
+      <div class="step-info">
+        <div class="step-name">দোয়া মাসুরা</div>
+        <div class="step-hint">সালামের আগে পড়তে হবে</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="arabic-text">اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ وَارْحَمْنِي إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ</div>
+      <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+      <div class="pron-box">আল্লাহুম্মা ইন্নি যালামতু নাফসি যুলমান কাসিরা, ওয়ালা ইয়াগফিরুয যুনুবা ইল্লা আনতা, ফাগফিরলি মাগফিরাতাম মিন ইনদিকা ওয়ারহামনি, ইন্নাকা আনতাল গাফুরুর রাহিম।</div>
+      <div class="lbl lbl-m">বাংলা অর্থ</div>
+      <div class="mean-box">হে আল্লাহ! আমি নিজের উপর অনেক জুলুম করেছি এবং তুমি ছাড়া গুনাহ মাফ করার কেউ নেই। তাই তোমার পক্ষ থেকে আমাকে ক্ষমা কর এবং আমার প্রতি দয়া কর। নিশ্চয়ই তুমি ক্ষমাশীল ও দয়ালু।</div>
+    </div>
+  </div>
+
+  <!-- সালাম -->
+  <div class="accord">
+    <div class="accord-head" onclick="tog(this)">
+      <div class="step-num">ঘ</div>
+      <div class="step-info">
+        <div class="step-name">সালাম</div>
+        <div class="step-hint">ডানে ও বামে ফিরে নামাজ শেষ করুন</div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="accord-body">
+      <div class="arabic-text">اَلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّه</div>
+      <div class="lbl lbl-p">বাংলা উচ্চারণ</div>
+      <div class="pron-box">আস-সালামু আলাইকুম ওয়া রাহমাতুল্লাহ &nbsp;(ডানে, তারপর বামে)</div>
+      <div class="lbl lbl-m">বাংলা অর্থ</div>
+      <div class="mean-box">আপনাদের উপর শান্তি ও আল্লাহর রহমত বর্ষিত হোক।</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>আল্লাহ আমাদের নামাজ কবুল করুন — আমিন 🤲</footer>
+
+<style>
+  #install-banner {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(135deg, #0b2e1a, #1e6e3e);
+    color: #fff;
+    padding: 14px 18px;
+    z-index: 9999;
+    box-shadow: 0 -4px 20px rgba(0,0,0,.2);
+    border-top: 1px solid rgba(196,154,44,.3);
+    animation: slideUp .35s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  #install-banner .banner-inner { display: flex; align-items: center; gap: 12px; max-width: 700px; margin: 0 auto; }
+  #install-banner .banner-icon { font-size: 28px; flex-shrink: 0; }
+  #install-banner .banner-text { flex: 1; }
+  #install-banner .banner-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+  #install-banner .banner-text span { font-size: 12px; opacity: .8; }
+  #install-banner .banner-btns { display: flex; gap: 8px; flex-shrink: 0; }
+  #install-btn { background: #c49a2c; color: #fff; border: none; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Noto Serif Bengali', serif; }
+  #install-btn:hover { background: #e8c96a; color: #0b2e1a; }
+  #dismiss-btn { background: transparent; color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.3); border-radius: 20px; padding: 8px 14px; font-size: 12px; cursor: pointer; font-family: 'Noto Serif Bengali', serif; }
+  #offline-toast { display: none; position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 13px; z-index: 9999; white-space: nowrap; }
+  #offline-toast.show { display: block; }
+</style>
+
+<div id="install-banner">
+  <div class="banner-inner">
+    <div class="banner-icon">🕌</div>
+    <div class="banner-text">
+      <strong>হোম স্ক্রিনে যোগ করুন</strong>
+      <span>অফলাইনেও ব্যবহার করা যাবে</span>
+    </div>
+    <div class="banner-btns">
+      <button id="install-btn">ইনস্টল করুন</button>
+      <button id="dismiss-btn">না</button>
+    </div>
+  </div>
+</div>
+<div id="offline-toast">📵 অফলাইন মোড — ক্যাশ থেকে লোড হচ্ছে</div>
+
+<script>
+  function tog(head) {
+    const body = head.nextElementSibling;
+    const wasOpen = head.classList.contains('open');
+    head.classList.toggle('open', !wasOpen);
+    body.classList.toggle('open', !wasOpen);
+  }
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => console.log('SW registered:', reg.scope))
+        .catch(err => console.warn('SW failed:', err));
+    });
+  }
+
+  let deferredPrompt = null;
+  const banner = document.getElementById('install-banner');
+  const installBtn = document.getElementById('install-btn');
+  const dismissBtn = document.getElementById('dismiss-btn');
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    banner.style.display = 'block';
+  });
+
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    banner.style.display = 'none';
+  });
+
+  dismissBtn.addEventListener('click', () => { banner.style.display = 'none'; });
+  window.addEventListener('appinstalled', () => { banner.style.display = 'none'; deferredPrompt = null; });
+
+  const toast = document.getElementById('offline-toast');
+  window.addEventListener('offline', () => {
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  });
+</script>
+</body>
+</html>

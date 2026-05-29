@@ -1,0 +1,27 @@
+{
+  "name": "সুন্নতে মুয়াক্কাদা নামাজ",
+  "short_name": "সুন্নত নামাজ",
+  "description": "৫ ওয়াক্ত সুন্নতে মুয়াক্কাদা নামাজের গাইড — বাংলা আরবি উচ্চারণ ও অর্থসহ",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fef9ef",
+  "theme_color": "#0b2e1a",
+  "orientation": "portrait",
+  "lang": "bn",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "lifestyle"],
+  "screenshots": []
+}
