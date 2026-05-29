@@ -1,7 +1,7 @@
 {
-  "name": "সুন্নতে মুয়াক্কাদা নামাজ",
-  "short_name": "সুন্নত নামাজ",
-  "description": "৫ ওয়াক্ত সুন্নতে মুয়াক্কাদা নামাজের গাইড — বাংলা আরবি উচ্চারণ ও অর্থসহ",
+  "name": "SUNNAH",
+  "short_name": "SUNNAH",
+  "description": "৫ ওয়াক্ত সুন্নাতে মুয়াক্কাদা নামাজের গাইড — বাংলা আরবি উচ্চারণ ও অর্থসহ",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#fef9ef",
