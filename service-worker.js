@@ -1,3 +1,27 @@
+importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js');
+
+firebase.initializeApp({
+  apiKey: "AIzaSyB_s4Qlhc3Y-mNgKbMyD_MuUaGwxVTYZC4",
+  authDomain: "sunnah-c8b5b.firebaseapp.com",
+  projectId: "sunnah-c8b5b",
+  storageBucket: "sunnah-c8b5b.firebasestorage.app",
+  messagingSenderId: "155920554259",
+  appId: "1:155920554259:web:b510e27897ec3da87ba2e6"
+});
+
+const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage(payload => {
+  self.registration.showNotification(payload.notification.title, {
+    body: payload.notification.body,
+    icon: './icon-192.png',
+    badge: './icon-192.png',
+    vibrate: [200, 100, 200],
+    tag: 'sunnah-reminder',
+    renotify: true
+  });
+});
 const CACHE_NAME = 'sunnate-muakkada-v2';
 const ASSETS = [
   './index.html',

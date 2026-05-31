@@ -565,6 +565,39 @@
       font-size: 13px;
     }
   </style>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB_s4Qlhc3Y-mNgKbMyD_MuUaGwxVTYZC4",
+    authDomain: "sunnah-c8b5b.firebaseapp.com",
+    projectId: "sunnah-c8b5b",
+    storageBucket: "sunnah-c8b5b.firebasestorage.app",
+    messagingSenderId: "155920554259",
+    appId: "1:155920554259:web:b510e27897ec3da87ba2e6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
+
+  const VAPID_KEY = "BGzK4XBHb0DK5_8APLwmpX4GzWdtdVLNLMvJqRle5YrI5Z4Tie4-YVUI-nfXhPTEkvJ429ZnIwNvEL1EE49u9Is";
+
+  async function initFCM() {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') return;
+      const sw = await navigator.serviceWorker.ready;
+      const token = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: sw });
+      console.log('FCM Token:', token);
+      localStorage.setItem('fcm_token', token);
+    } catch (err) {
+      console.error('FCM error:', err);
+    }
+  }
+
+  initFCM();
+</script>
 </head>
 <body>
 
