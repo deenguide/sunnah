@@ -1319,8 +1319,13 @@
     st.classList.add('show');
     setTimeout(() => st.classList.remove('show'), 2500);
     closeSettings();
-    startNotificationTimer();
-  }
+if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({
+          type: 'SCHEDULE_REMINDERS',
+          reminders: reminders
+        });
+      }
+        }
 
   function openSettings() {
     updatePermissionBox();

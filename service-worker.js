@@ -44,25 +44,47 @@ self.addEventListener('fetch', event => {
         caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
         return response;
       }).catch(() => {
-        // Offline fallback
         return caches.match('./index.html');
       });
     })
   );
 });
 
-// ── Notification: message from app ──
+// Notification: message from app
+const scheduledTimers = [];
+
 self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'SHOW_NOTIFICATION') {
-    const { title, body } = event.data;
-    self.registration.showNotification(title, {
-      body: body,
-      icon: './icon-192.png',
-      badge: './icon-192.png',
-      vibrate: [200, 100, 200],
-      tag: 'sunnah-reminder',
-      renotify: true,
-      requireInteraction: false
+  if (!event.data) return;
+
+  if (event.data.type === 'SCHEDULE_REMINDERS') {
+    scheduledTimers.forEach(t => clearTimeout(t));
+    scheduledTimers.length = 0;
+
+    const reminders = event.data.reminders;
+    reminders.forEach(r => {
+      if (!r.enabled) return;
+
+      const now = new Date();
+      let h = r.hour % 12;
+      if (r.ampm === 'PM') h += 12;
+      const target = new Date();
+      target.setHours(h, r.minute, 0, 0);
+
+      if (target <= now) target.setDate(target.getDate() + 1);
+
+      const delay = target - now;
+      const t = setTimeout(() => {
+        self.registration.showNotification('🕌 SUNNAH রিমাইন্ডার', {
+          body: r.text,
+          icon: './icon-192.png',
+          badge: './icon-192.png',
+          vibrate: [200, 100, 200],
+          tag: 'sunnah-reminder-' + h + '-' + r.minute,
+          renotify: true,
+          requireInteraction: false
+        });
+      }, delay);
+      scheduledTimers.push(t);
     });
   }
 });
