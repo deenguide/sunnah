@@ -1266,9 +1266,9 @@
         </div>
         <input class="reminder-text-input" type="text" placeholder="রিমাইন্ডার লিখুন..." value="${r.text}" id="rt-${i}">
         <div class="reminder-time-row">
-          <select class="time-select" id="rh-${i}">${hourOpts}</select>
+          <input type="number" class="time-select" id="rh-${i}" min="1" max="12" value="${r.hour}" style="width:60px">
           <span>:</span>
-          <select class="time-select" id="rm-${i}">${minOpts}</select>
+          <input type="number" class="time-select" id="rm-${i}" min="0" max="59" value="${r.minute}" style="width:60px">
           <select class="time-select" id="rap-${i}">
             <option value="AM" ${r.ampm==='AM'?'selected':''}>AM</option>
             <option value="PM" ${r.ampm==='PM'?'selected':''}>PM</option>
